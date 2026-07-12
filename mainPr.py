@@ -115,6 +115,7 @@ if __name__ == '__main__':
     plotting.plotens(m)
     plotting.STD()
     plotting.Prplot()
+    plotting.save_and_show_plots()
     timee=time.perf_counter()
     print("Time taken for the simulation =",timee-times)
     

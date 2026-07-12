@@ -49,5 +49,6 @@ if __name__ == '__main__':
     plotting.plotavg()
     plotting.plotens(m)
     plotting.STD()
+    plotting.save_and_show_plots()
     elapsed = time.perf_counter() - start_time
     print("Time taken for the simulation =", elapsed)

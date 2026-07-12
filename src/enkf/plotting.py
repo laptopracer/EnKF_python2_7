@@ -6,10 +6,26 @@ File that plotts various figures
 Written by Godwin Madho
 """
 import csv
+from pathlib import Path
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
-from .config import m,nstep,inf,tend,dt,Eavg,Obsfile,stat,preA,obsA, get_output_path
+from .config import m,nstep,inf,tend,dt,Eavg,Obsfile,stat,preA,obsA, get_output_path, get_output_dir
+
+
+def save_and_show_plots():
+    output_dir = Path(get_output_dir()) / 'plots'
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    for fig_num in plt.get_fignums():
+        figure = plt.figure(fig_num)
+        figure.tight_layout()
+        figure.savefig(output_dir / f'figure_{fig_num}.png', dpi=200, bbox_inches='tight')
+
+    try:
+        plt.show(block=True)
+    except Exception:
+        pass
 
 def plotavg():
         

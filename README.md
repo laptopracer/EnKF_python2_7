@@ -69,7 +69,7 @@ From the repository root, run:
 - `python main.py` for the standard state-estimation experiment
 - `python mainPr.py` for the parameter-estimation experiment
 
-The scripts use the configuration in [src/enkf/config.py](src/enkf/config.py) and write their outputs into [outputs/standard](outputs/standard) or [outputs/parameter](outputs/parameter).
+The scripts use the configuration in [src/enkf/config.py](src/enkf/config.py) and write their outputs into [outputs/standard](outputs/standard) or [outputs/parameter](outputs/parameter). When the simulation finishes, the generated plots are saved as PNG files and displayed in windows that remain open until you close them.
 
 ## Output files
 
