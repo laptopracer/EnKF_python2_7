@@ -6,15 +6,16 @@ Calculate matrix to line up simulation to observation
 Written by Godwin Madho
 """
 import numpy as np
-from param import n,p
+from . import config
+
 
 def calc_H():
     
-    H=np.zeros([len(p),n])
+    H=np.zeros([len(config.p), config.n])
 
     i=0
-    while i<len(p):
-        pp=p[i]
+    while i<len(config.p):
+        pp=config.p[i]
         H[i,pp]=1
         i=i+1
     #print(H)

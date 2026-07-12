@@ -6,7 +6,8 @@ Solve the Lorenz model using rk4.
 Written by Godwin Madho
 """
 import numpy as np
-from param import m,dt,Eavg
+from pathlib import Path
+from .config import m,dt,Eavg, get_output_path
 #import random
 
 def lorenz(xE,dt,sig,r,b):
@@ -47,27 +48,29 @@ def L3Ens(tcur,x):
     # Writing the current data in files
     i=0
     while i<m:
-        en=open('en%s.txt' % (str(i)),'a')
-        en.write(str(t))
-        j=0
-        while j<len(x[:,1]):
-            en.write(';'+str(x[j,i]))
-            j=j+1
-            
-        en.write('\n')
-        en.close()
+        output_path = Path(get_output_path(f'en{i}.txt'))
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        with output_path.open('a') as en:
+            en.write(str(t))
+            j=0
+            while j<len(x[:,1]):
+                en.write(';'+str(x[j,i]))
+                j=j+1
+                
+            en.write('\n')
         i=i+1
      
     # Writing the average in a file to be used later
     Enavg=x.mean(1)
-    avgsave=open(Eavg,'a')
-    i=0
-    avgsave.write(str(t))
-    while i<len(Enavg):
-        avgsave.write(';' + str(Enavg[i]))
-        i=i+1
-    avgsave.write('\n')    
-    avgsave.close()
+    avg_path = Path(Eavg)
+    avg_path.parent.mkdir(parents=True, exist_ok=True)
+    with avg_path.open('a') as avgsave:
+        i=0
+        avgsave.write(str(t))
+        while i<len(Enavg):
+            avgsave.write(';' + str(Enavg[i]))
+            i=i+1
+        avgsave.write('\n')
     
     return(tcur,x)
     

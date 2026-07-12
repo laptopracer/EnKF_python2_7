@@ -9,7 +9,7 @@ import csv
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
-from param import m,nstep,inf,tend,dt,Eavg,Obsfile,stat,preA,obsA
+from .config import m,nstep,inf,tend,dt,Eavg,Obsfile,stat,preA,obsA, get_output_path
 
 def plotavg():
         
@@ -158,7 +158,8 @@ def plotens(m):
     # plots indivitual ensembles
     i=0
     while i<m:
-        en=open('en%s.txt' % (str(i)),'r')
+        en_path = get_output_path(f'en{i}.txt')
+        en=open(en_path,'r')
         
         av=csv.reader(en,delimiter=';')
         Ent=[]
@@ -265,7 +266,7 @@ def Prplot():
     ME=np.mean(sig)
     plt.figure(6)
     plt.title("$\sigma$ distribution m = " +str(m)+ ", assim step = " +str(nstep)+ ", inflation = " +str(inf)+ ", dt = " +str(dt),fontsize=16)
-    plt.hist(sig, bins='auto',normed=1)
+    plt.hist(sig, bins='auto', density=True)
     plt.ylabel("Frequency",fontsize=20)
     plt.xlabel("$\sigma$",fontsize=20)
     xs=[10.0]*100
@@ -278,7 +279,7 @@ def Prplot():
     ME=np.mean(r)
     plt.figure(7)
     plt.title("r distribution m = " +str(m)+ ", assim step = " +str(nstep)+ ", inflation = " +str(inf)+ ", dt = " +str(dt),fontsize=16)
-    plt.hist(r, bins='auto',normed=1)
+    plt.hist(r, bins='auto', density=True)
     plt.ylabel("Frequency",fontsize=20)
     plt.xlabel("r",fontsize=20)
     xs=[28.0]*100
@@ -291,7 +292,7 @@ def Prplot():
     ME=np.mean(b)
     plt.figure(8)
     plt.title("b distribution m = " +str(m)+ ", assim step = " +str(nstep)+ ", inflation = " +str(inf)+ ", dt = " +str(dt),fontsize=16)
-    plt.hist(b, bins='auto',normed=1)
+    plt.hist(b, bins='auto', density=True)
     plt.ylabel("Frequency",fontsize=20)
     plt.xlabel("b",fontsize=20)
     bval=8.0/3.0

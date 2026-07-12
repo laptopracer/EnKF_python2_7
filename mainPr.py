@@ -10,24 +10,30 @@ import time
 from glob import glob
 import numpy as np
 import matplotlib.pyplot as plt
-from param import m,n,dt,tend,nstep,Eavg,stat
-import L3Prini
-import L3Prmodel
-import L3Probs
-import calcH
-import assimilation
-import plotting
+from src.enkf import config as enkf_config
+from src.enkf import L3Prini, L3Prmodel, L3Probs, calcH, assimilation, plotting
+from src.enkf.utils import clear_output_files, save_series
+
+m = enkf_config.m
+n = enkf_config.n
+n_obs = 3
+dt = enkf_config.dt
+tend = enkf_config.tend
+nstep = enkf_config.nstep
+enkf_config.n = 6
+enkf_config.Eavg = str(enkf_config.PARAMETER_OUTPUT_DIR / 'Eavg.txt')
+enkf_config.preA = str(enkf_config.PARAMETER_OUTPUT_DIR / 'preA.txt')
+enkf_config.obsA = str(enkf_config.PARAMETER_OUTPUT_DIR / 'obsA.txt')
+enkf_config.stat = str(enkf_config.PARAMETER_OUTPUT_DIR / 'STD.txt')
+Eavg = enkf_config.Eavg
+stat = enkf_config.stat
 #import stats
 
 if __name__ == '__main__':
+    enkf_config.set_output_mode("parameter")
 
-    times=time.clock()
-    for filename in glob("en*.txt"):
-        os.remove(filename)
-    for filename in glob("preA.txt"):
-        os.remove(filename)
-    for filename in glob("obsA.txt"):
-        os.remove(filename)
+    times=time.perf_counter()
+    clear_output_files(["en*.txt", "preA.txt", "obsA.txt"], base_dir=enkf_config.PARAMETER_OUTPUT_DIR)
         
     plt.close('all')
     # Getting the initial ensemble
@@ -109,7 +115,7 @@ if __name__ == '__main__':
     plotting.plotens(m)
     plotting.STD()
     plotting.Prplot()
-    timee=time.clock()
+    timee=time.perf_counter()
     print("Time taken for the simulation =",timee-times)
     
     #gc.collect()

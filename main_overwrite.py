@@ -1,23 +1,14 @@
-"""
-main.py
-
-Main program which calls different programs for EnKF.
-
-Written by Godwin Madho
-"""
 import time
 import numpy as np
 import matplotlib.pyplot as plt
-from src.enkf import config as enkf_config
-from src.enkf.config import m, n, dt, tend, nstep, Eavg, stat, STANDARD_OUTPUT_DIR
+from src.enkf.config import m, n, dt, tend, nstep, Eavg, stat
 from src.enkf import L3ini, L3rk4model, L3obs, calcH, assimilation, plotting
 from src.enkf.utils import clear_output_files, save_series
 
 
 if __name__ == '__main__':
-    enkf_config.set_output_mode("standard")
     start_time = time.perf_counter()
-    clear_output_files(["en*.txt", "preA.txt", "obsA.txt"], base_dir=STANDARD_OUTPUT_DIR)
+    clear_output_files(["en*.txt", "preA.txt", "obsA.txt"])
 
     plt.close('all')
 

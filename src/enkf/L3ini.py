@@ -9,11 +9,14 @@ Written by Godwin Madho
 import scipy.io
 import numpy as np
 import random
+from pathlib import Path
+from .config import m,n,L3_samples_file, ensure_data_files, get_output_path
 
 def ini(n,m):
+    ensure_data_files()
     x=np.zeros([n,m])
     
-    mat = scipy.io.loadmat('L3_samples.mat')
+    mat = scipy.io.loadmat(L3_samples_file)
     S=mat['S']
     
     '''
@@ -28,7 +31,7 @@ def ini(n,m):
     '''
     
     # Getting the number of columns and shuffling them
-    P=range(1,10000)
+    P=list(range(1,10000))
     random.seed()
     random.shuffle(P)
     
@@ -60,14 +63,15 @@ def ini(n,m):
     t=0.0
     i=0
     while i<m:
-        en=open('en%s.txt' % (str(i)),'w')
-        en.write(str(t))
-        j=0
-        while j<len(x[:,1]):
-            en.write(';'+str(x[j,i]))
-            j=j+1
-        en.write('\n')
-        en.close()
+        output_path = Path(get_output_path(f'en{i}.txt'))
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        with output_path.open('w') as en:
+            en.write(str(t))
+            j=0
+            while j<len(x[:,1]):
+                en.write(';'+str(x[j,i]))
+                j=j+1
+            en.write('\n')
                 
         i=i+1
         
